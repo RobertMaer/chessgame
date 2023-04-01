@@ -1,5 +1,13 @@
 import pygame
-from data.classes.Board import Board
+question=int(input())
+if question==0:
+    from data.classes.Board import Board
+elif question==1:
+    from data.classes.Board1 import Board
+elif question==2:
+    from data.classes.Board2 import Board
+elif question==3:
+    from data.classes.Board3 import Board
 
 
 pygame.init()
@@ -26,11 +34,19 @@ if __name__ == '__main__':
        			# If the mouse is clicked
                 if event.button == 1:
                     board.handle_click(mx, my)
+
         if board.is_in_checkmate('black'): # If black is in checkmate
             print('White wins!')
             running = False
         elif board.is_in_checkmate('white'): # If white is in checkmate
             print('Black wins!')
             running = False
+
 		# Draw the board
         draw(screen)
+
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            quit()

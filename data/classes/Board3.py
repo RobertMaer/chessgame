@@ -1,13 +1,11 @@
-
 import pygame
 from data.classes.Square import Square
 from data.classes.pieces.Rook import Rook
-from data.classes.pieces.Bishop import Bishop
+from data.classes.pieces.Bishop3 import Bishop
 from data.classes.pieces.Knight import Knight
-from data.classes.pieces.Queen import Queen
+from data.classes.pieces.Queen3 import Queen
 from data.classes.pieces.King import King
-from data.classes.pieces.Pawn import Pawn
-
+from data.classes.pieces.Pawn3 import Pawn
 
 # Game state checker
 class Board:
@@ -18,15 +16,16 @@ class Board:
         self.tile_height = height // 8
         self.selected_piece = None
         self.turn = 'white'
+        self.counter=0
         self.config = [
-            ['bR', 'bN', 'bB', 'bQ', 'bK', 'bB', 'bN', 'bR'],
-            ['bP', 'bP', 'bP', 'bP', 'bP', 'bP', 'bP', 'bP'],
-            ['','','','','','','',''],
-            ['','','','','','','',''],
-            ['','','','','','','',''],
-            ['','','','','','','',''],
-            ['wP', 'wP', 'wP', 'wP', 'wP', 'wP', 'wP', 'wP'],
-            ['wR', 'wN', 'wB', 'wQ', 'wK', 'wB', 'wN', 'wR'],
+            ['', '', '', '', '', 'bK', '', ''],
+            ['', '', '', '', '', '', '', ''],
+            ['','','bP','','','','wP','wP'],
+            ['bP','','','','','wK','wB',''],
+            ['','','bP','','','','',''],
+            ['wP','','bN','','','','',''],
+            ['', '', '', '', '', '', '', ''],
+            ['', '', '', '', '', '', '', ''],
         ]
         self.squares = self.generate_squares()
         self.setup_board()
@@ -88,7 +87,9 @@ class Board:
                 if clicked_square.occupying_piece.color == self.turn:
                     self.selected_piece = clicked_square.occupying_piece
         elif self.selected_piece.move(self, clicked_square):
-            self.turn = 'white' if self.turn == 'black' else 'black'
+            self.counter+=1
+            if self.counter!=1 and self.counter!=2:
+                self.turn = 'white' if self.turn == 'black' else 'black'
         elif clicked_square.occupying_piece is not None:
             if clicked_square.occupying_piece.color == self.turn:
                 self.selected_piece = clicked_square.occupying_piece
@@ -146,3 +147,4 @@ class Board:
                 square.highlight = True
         for square in self.squares:
             square.draw(display)
+

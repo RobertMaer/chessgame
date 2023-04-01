@@ -1,5 +1,5 @@
 import pygame
-from data.classes.Piece import Piece
+from data.classes.Piece2 import Piece
 
 class Knight(Piece):
     def __init__(self, pos, color, board):

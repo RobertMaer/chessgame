@@ -6,6 +6,8 @@ class Piece:
         self.y = pos[1]
         self.color = color
         self.has_moved = False
+        self.counter=0
+        self.counterB=1
 
     def get_moves(self, board):
         output = []
@@ -28,6 +30,8 @@ class Piece:
         return output
 
     def move(self, board, square, force=False):
+        pygame.time.delay(100)
+        self.counter+=1
         for i in board.squares:
             i.highlight = False
         if square in self.get_valid_moves(board) or force:
@@ -37,6 +41,7 @@ class Piece:
             square.occupying_piece = self
             board.selected_piece = None
             self.has_moved = True
+
             # Pawn promotion
             if self.notation == ' ':
                 if self.y == 0 or self.y == 7:
@@ -54,6 +59,13 @@ class Piece:
                 elif prev_square.x - self.x == -2:
                     rook = board.get_piece_from_pos((7, self.y))
                     rook.move(board, board.get_square_from_pos((5, self.y)), force=True)
+
+            if self.counter==1 and self.notation==' ':
+                king = board.get_piece_from_pos((5, 0))
+                king.move(board, board.get_square_from_pos((6, 1)), force=True)
+            if self.counterB==1 and self.notation=='B':
+                king = board.get_piece_from_pos((6, 1))
+                king.move(board, board.get_square_from_pos((7, 2)), force=True)
             return True
         else:
             board.selected_piece = None
@@ -63,3 +75,4 @@ class Piece:
     # True for all pieces except pawn
     def attacking_squares(self, board):
         return self.get_moves(board)
+
